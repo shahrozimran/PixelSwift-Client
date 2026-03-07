@@ -1,31 +1,25 @@
-import React from "react";
 import { useTheme } from "../context/ThemeContext";
-import { Image as ImageIcon } from "lucide-react";
+import { Layers } from "lucide-react";
 
-interface Props {
-  format: string;
-  setFormat: (value: string) => void;
-}
-
-export default function FormatSelector({ format, setFormat }: Props) {
+export default function FormatSelector({ format, setFormat }) {
   const { theme } = useTheme();
 
   return (
-    <div style={{ marginBottom: '8px' }}>
-      <label htmlFor="format-select" style={{ color: theme.textMuted, fontWeight: 600, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.95rem' }}>
-        <ImageIcon size={16} />
-        Format
+    <div style={{ marginBottom: '16px' }}>
+      <label htmlFor="format-select" style={{ color: theme.textMuted, fontWeight: 600, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
+        <Layers size={16} />
+        Output Format
       </label>
       <select
         id="format-select"
         style={{
           width: '100%',
-          padding: '12px 14px',
+          padding: '11px 14px',
           borderRadius: '10px',
           border: `1px solid ${theme.borderColor}`,
           background: theme.cardBg,
           color: theme.textMain,
-          marginTop: '8px',
+          marginTop: '6px',
           transition: 'all 0.2s ease',
           fontFamily: 'inherit',
           fontSize: '0.95rem',

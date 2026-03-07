@@ -1,23 +1,17 @@
-import React from "react";
 import { useTheme } from "../context/ThemeContext";
-import { Gauge } from "lucide-react";
+import { Sliders } from "lucide-react";
 
-interface Props {
-  quality: number;
-  setQuality: (value: number) => void;
-}
-
-export default function QualitySlider({ quality, setQuality }: Props) {
+export default function QualitySlider({ quality, setQuality }) {
   const { theme } = useTheme();
 
   return (
-    <div style={{ marginBottom: '8px' }}>
+    <div style={{ marginBottom: '16px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-        <label style={{ color: theme.textMuted, fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.95rem' }}>
-          <Gauge size={16} />
-          Quality
+        <label style={{ color: theme.textMuted, fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
+          <Sliders size={16} />
+          Compression Level
         </label>
-        <span style={{ color: theme.primary, fontWeight: 700, fontSize: '0.9rem', background: theme.inputBg, padding: '4px 10px', borderRadius: '8px' }}>
+        <span style={{ color: theme.primary, fontWeight: '700', fontSize: '0.85rem', background: theme.inputBg, padding: '5px 11px', borderRadius: '8px', minWidth: '45px', textAlign: 'center' }}>
           {quality}%
         </span>
       </div>

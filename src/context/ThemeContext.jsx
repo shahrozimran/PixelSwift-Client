@@ -1,14 +1,9 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext } from 'react';
 import { lightTheme, darkTheme } from '../styles/theme';
 
-interface ThemeContextType {
-  isDark: boolean;
-  theme: typeof lightTheme;
-}
+const ThemeContext = createContext(undefined);
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-
-export function ThemeProvider({ children, isDark }: { children: ReactNode; isDark: boolean }) {
+export function ThemeProvider({ children, isDark }) {
   const theme = isDark ? darkTheme : lightTheme;
 
   return (

@@ -1,4 +1,4 @@
-const Header = ({ onNavClick }: { onNavClick: (id: string) => void }) => (
+const Header = ({ onNavClick }) => (
   <header style={{ 
     padding: '15px 0', 
     borderBottom: '1px solid #e2e8f0', 
@@ -12,7 +12,7 @@ const Header = ({ onNavClick }: { onNavClick: (id: string) => void }) => (
       maxWidth: '1000px', 
       margin: '0 auto', 
       display: 'flex', 
-      justifyContent: 'center', // Centers the logo
+      justifyContent: 'center',
       alignItems: 'center', 
       padding: '0 20px' 
     }}>
@@ -22,7 +22,6 @@ const Header = ({ onNavClick }: { onNavClick: (id: string) => void }) => (
       >
         PixelSwift
       </h2>
-      {/* Navigation links removed to keep the header clean */}
     </div>
   </header>
 );
