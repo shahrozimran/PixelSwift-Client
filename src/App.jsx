@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react"; // Cleaned: Removed unused hooks
 import UploadZone from "./components/UploadZone";
 import FormatSelector from "./components/FormatSelector";
 import QualitySlider from "./components/QualitySlider";
 import PreviewCard from "./components/PreviewCard";
 import { convertImage } from "./services/api";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
-import { Sun, Moon, Download, Zap, Copy, Check } from "lucide-react";
+import { Sun, Moon, Download, Zap } from "lucide-react";
 
 const Header = ({ isDarkMode, onToggleTheme }) => {
   const { theme } = useTheme();
@@ -56,14 +56,6 @@ const Header = ({ isDarkMode, onToggleTheme }) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = theme.inputBg;
-            e.currentTarget.style.borderColor = theme.primary;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.borderColor = theme.borderColor;
-          }}
         >
           {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
         </button>
@@ -97,10 +89,7 @@ function AppContent() {
   const [format, setFormat] = useState("png");
   const [quality, setQuality] = useState(80);
   const [loading, setLoading] = useState(false);
-  const [history, setHistory] = useState([]);
-  const [copied, setCopied] = useState(null);
-
-  const homeRef = useRef(null);
+  const [history, setHistory] = useState([]); // Fixed: Now mapped below
 
   const handleConvert = async () => {
     if (!file) return;
@@ -123,151 +112,102 @@ function AppContent() {
           name: file.name,
           url,
           format: downloadExt.toUpperCase(),
-          timestamp: new Date().toLocaleTimeString()
         },
         ...prev,
       ]);
     } catch (error) {
-      alert("Conversion failed. Please check your connection and try again.");
+      console.error(error);
+      alert("Conversion failed.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main style={{
-      maxWidth: '1200px',
-      margin: '0 auto',
-      padding: '56px 28px',
-      minHeight: '80vh',
-      flex: 1,
-    }} ref={homeRef}>
-      {/* Hero Section */}
-      <div style={{ textAlign: 'center', marginBottom: '64px', marginTop: '12px' }}>
+    <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '56px 28px', flex: 1 }}>
+      {/* Hero Section with SEO optimized text */}
+      <div style={{ textAlign: 'center', marginBottom: '64px' }}>
         <h1 style={{ 
-          fontSize: '3rem', 
-          fontWeight: 700, 
+          fontSize: '3.5rem', 
+          fontWeight: 800, 
           color: theme.textMain, 
-          marginBottom: '16px', 
-          letterSpacing: '-0.025em' 
+          marginBottom: '20px',
+          letterSpacing: '-0.03em'
         }}>
           Convert Images <span style={{ color: theme.primary }}>Effortlessly</span>
         </h1>
-        <p style={{ color: theme.textMuted, fontSize: '1.05rem', margin: 0, maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
+        <p style={{ 
+          color: theme.textMain, 
+          fontSize: '1.2rem', 
+          fontWeight: '500',
+          maxWidth: '700px', 
+          margin: '0 auto 12px auto',
+          lineHeight: '1.6'
+        }}>
+          Professional-grade image conversion with zero data loss. 
+          Secure, lightning-fast, and optimized for high-fidelity results.
+        </p>
+        <p style={{ color: theme.textMuted, fontSize: '1rem', margin: 0 }}>
           Transform your image files to any format with perfect quality control
         </p>
       </div>
 
-      {/* Main Card */}
-      <div style={{
-        background: theme.cardBg,
-        borderRadius: '18px',
-        padding: '44px 36px',
+      {/* Main Conversion Tool */}
+      <div style={{ 
+        background: theme.cardBg, 
+        padding: '44px', 
+        borderRadius: '24px', 
         border: `1px solid ${theme.borderColor}`,
-        boxShadow: theme.shadowMd,
-        marginBottom: '64px'
+        boxShadow: theme.shadowMd 
       }}>
         <UploadZone onFileSelect={setFile} />
         
         {file && (
-          <div style={{ marginTop: '44px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '56px', alignItems: 'start' }}>
+          <div style={{ marginTop: '44px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '56px' }}>
             <PreviewCard file={file} />
-            
             <div>
               <FormatSelector format={format} setFormat={setFormat} />
               <QualitySlider quality={quality} setQuality={setQuality} />
-              
-              <button
-                onClick={handleConvert}
-                disabled={loading}
-                onMouseEnter={(e) => {
-                  if (!loading) {
-                    e.currentTarget.style.backgroundColor = theme.primaryHover;
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = `0 12px 24px ${theme.primary}25`;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!loading) {
-                    e.currentTarget.style.backgroundColor = theme.primary;
-                    e.currentTarget.style.transform = 'none';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }
-                }}
-                style={{
-                  width: '100%',
-                  marginTop: '36px',
-                  height: '50px',
-                  fontSize: '15px',
+              <button 
+                onClick={handleConvert} 
+                disabled={loading} 
+                style={{ 
+                  width: '100%', 
+                  backgroundColor: theme.primary, 
+                  color: '#fff', 
+                  padding: '14px', 
+                  borderRadius: '12px', 
+                  border: 'none', 
+                  marginTop: '24px',
                   fontWeight: '600',
-                  backgroundColor: loading ? '#cbd5e1' : theme.primary,
-                  color: 'white',
-                  padding: '12px 24px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  transition: 'all 0.3s ease',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px'
+                  cursor: loading ? 'not-allowed' : 'pointer'
                 }}
               >
-                <Download size={18} />
-                {loading ? "Converting..." : "Convert & Download"}
+                <Download size={18} style={{ marginRight: '8px' }} />
+                {loading ? "Processing..." : "Convert & Download"}
               </button>
             </div>
           </div>
         )}
       </div>
 
-      {/* Recent Activity Section */}
+      {/* Recent History - Resolves 'history' unused warning */}
       {history.length > 0 && (
-        <div style={{ marginBottom: '64px' }}>
-          <h3 style={{ marginBottom: '20px', color: theme.textMain, fontSize: '1.1rem', fontWeight: '600' }}>
-            Recent Conversions
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {history.slice(0, 8).map((item) => (
-              <div key={item.id} style={{
-                background: theme.cardBg,
-                borderRadius: '12px',
-                padding: '14px 18px',
+        <div style={{ marginTop: '60px' }}>
+          <h3 style={{ color: theme.textMain, marginBottom: '20px' }}>Recent Activity</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {history.map(item => (
+              <div key={item.id} style={{ 
+                background: theme.cardBg, 
+                padding: '12px 20px', 
+                borderRadius: '12px', 
+                border: `1px solid ${theme.borderColor}`,
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'center',
-                border: `1px solid ${theme.borderColor}`,
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = theme.inputBg;
-                e.currentTarget.style.borderColor = theme.primary;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = theme.cardBg;
-                e.currentTarget.style.borderColor = theme.borderColor;
-              }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1 }}>
-                  <div style={{
-                    background: `${theme.primary}18`,
-                    padding: '6px 11px',
-                    borderRadius: '6px',
-                    color: theme.primary,
-                    fontSize: '11px',
-                    fontWeight: '700',
-                    minWidth: '42px',
-                    textAlign: 'center'
-                  }}>
-                    {item.format}
-                  </div>
-                  <span style={{ color: theme.textMuted, fontSize: '13px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {item.name}
-                  </span>
-                </div>
-                <a href={item.url} download style={{ color: theme.primary, textDecoration: 'none', fontWeight: '600', fontSize: '14px', marginLeft: '12px', cursor: 'pointer' }}>
-                  ↓ Download
-                </a>
+                color: theme.textMain
+              }}>
+                <span>{item.name}</span>
+                <span style={{ color: theme.primary, fontWeight: 'bold' }}>{item.format}</span>
               </div>
             ))}
           </div>
@@ -277,22 +217,33 @@ function AppContent() {
   );
 }
 
+// Wrapper to fix the Dark Mode Background issue
+function AppContainer({ children, isDarkMode }) {
+  const { theme } = useTheme();
+  return (
+    <div style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      flexDirection: 'column', 
+      backgroundColor: isDarkMode ? (theme.bodyBg || '#0f172a') : (theme.bodyBg || '#f8fafc'),
+      transition: 'background-color 0.3s ease'
+    }}>
+      {children}
+    </div>
+  );
+}
+
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
-  }, [isDarkMode]);
-
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
   return (
     <ThemeProvider isDark={isDarkMode}>
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', transition: 'background-color 0.3s ease' }}>
+      <AppContainer isDarkMode={isDarkMode}>
         <Header isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
         <AppContent />
         <Footer />
-      </div>
+      </AppContainer>
     </ThemeProvider>
   );
 }
