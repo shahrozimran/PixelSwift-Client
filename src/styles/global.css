@@ -82,3 +82,20 @@ body {
 
 label, p { color: var(--text-muted); }
 h1, h2, h3, h4 { color: var(--text-main); }
+
+
+.responsiveGrid {
+  display: block;
+}
+
+@media (min-width: 600px) {
+
+  .responsiveGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    margin-top: 2rem;
+  }
+
+  
+}

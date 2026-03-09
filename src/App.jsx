@@ -163,7 +163,7 @@ function AppContent() {
         <UploadZone onFileSelect={setFile} />
         
         {file && (
-          <div style={{ marginTop: '44px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '56px' }}>
+          <div className="responsiveGrid">
             <PreviewCard file={file} />
             <div>
               <FormatSelector format={format} setFormat={setFormat} />

@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import { lightTheme } from "./styles/theme";
+import "./styles/global.css"
 
 // Set global styles
 document.body.style.margin = '0';
